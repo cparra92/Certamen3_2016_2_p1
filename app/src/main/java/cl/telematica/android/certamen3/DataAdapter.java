@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import io.realm.Realm;
+
 /**
  * Created by franciscocabezas on 11/18/16.
  */
@@ -70,9 +72,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         if(feed.isFavorite()) {
             holder.mAddBtn.setText(mContext.getString(R.string.added));
-        } else {
+          } else {
             holder.mAddBtn.setText(mContext.getString(R.string.like));
-        }
+           }
         holder.mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,8 +84,41 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
                 feed.setFavorite(!feed.isFavorite());
                 if(feed.isFavorite()) {
                     holder.mAddBtn.setText(mContext.getString(R.string.added));
+                       /*
+                          *Agregar a la bd
+                       */
+                    Realm realm = Realm.getDefaultInstance();
+
+                    realm.beginTransaction();
+
+                    realm.copyToRealm(feed);
+                    realm.commitTransaction();
+
+
+
+
+
                 } else {
                     holder.mAddBtn.setText(mContext.getString(R.string.like));
+                     /*
+            *Sacar de la Bd
+
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+
+            //Make the query.
+            RealmQuery<Feed> realmQuery = realm.where(Feed.class);
+
+            RealmResults<Feed> realmResults = realmQuery.findAll();
+
+            //Remove elements.
+            realmResults.clear();
+
+            //Commit changes.
+            realm.commitTransaction();
+            */
+
+
                 }
             }
         });

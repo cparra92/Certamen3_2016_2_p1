@@ -37,7 +37,7 @@ public class MyAsyncTaskExecutor {
             @Override
             protected void onPostExecute(String result) {
                 if(result != null){
-                    System.out.println(result);
+                    //System.out.println(result);
 
                     //Why god... why
                     mAdapter = new DataAdapter(activity, activity.getFeeds(result));

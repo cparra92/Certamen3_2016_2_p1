@@ -1,7 +1,7 @@
 package cl.telematica.android.certamen3;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -11,13 +11,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Realm realm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
         createMyRecyclerView();
         MyAsyncTaskExecutor.getInstance().executeMyAsynctask(this, mRecyclerView);
+
+
+        realm = Realm.getDefaultInstance();
+        // ... Do something ...
+        File outFile = this.getDatabasePath("default.realm");
+        String outFileName = outFile.getPath();
+        System.out.println(outFile);
     }
 
     public void createMyRecyclerView() {
@@ -83,11 +96,23 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             /**
              * You should manage the action to show the favorite items saved by the user
+             * boton para mostrar los favoritos
              */
+            savedata();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void savedata() {
+
+        RealmResults<Feed> results = realm.where(Feed.class)
+                //.equalTo("imagen", "soccer")
+                //.or()
+                //.equalTo("imagen", "tenis")   FILTRAJE
+                .findAll();
+       System.out.println(results);
+    }
 }
