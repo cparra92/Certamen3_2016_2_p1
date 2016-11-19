@@ -1,4 +1,4 @@
-package cl.telematica.android.certamen3;
+package cl.telematica.android.certamen3.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import cl.telematica.android.certamen3.R;
+import cl.telematica.android.certamen3.models.Feed;
 import io.realm.Realm;
 
 /**
@@ -100,23 +102,23 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
                 } else {
                     holder.mAddBtn.setText(mContext.getString(R.string.like));
-                     /*
-            *Sacar de la Bd
+                    /*
+                    *Sacar de la Bd
+                    */
 
-            Realm realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
 
-            //Make the query.
-            RealmQuery<Feed> realmQuery = realm.where(Feed.class);
 
-            RealmResults<Feed> realmResults = realmQuery.findAll();
 
-            //Remove elements.
-            realmResults.clear();
+                    Realm realm = Realm.getDefaultInstance();
 
-            //Commit changes.
-            realm.commitTransaction();
-            */
+                    realm.beginTransaction();
+
+                    //RealmResults<Feed> results = realm.where(Feed.class).findAll();
+                    //RealmResults<Feed> realmResults = results.where(Feed.class).equalTo();
+                    //realmResults.clear();
+
+                    realm.commitTransaction();
+
 
 
                 }

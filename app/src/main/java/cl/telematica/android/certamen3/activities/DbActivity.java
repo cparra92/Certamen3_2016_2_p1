@@ -1,4 +1,4 @@
-package cl.telematica.android.certamen3;
+package cl.telematica.android.certamen3.activities;
 
 import android.app.Application;
 

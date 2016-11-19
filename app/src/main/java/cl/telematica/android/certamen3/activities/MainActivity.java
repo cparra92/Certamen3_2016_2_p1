@@ -1,4 +1,4 @@
-package cl.telematica.android.certamen3;
+package cl.telematica.android.certamen3.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,14 +15,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cl.telematica.android.certamen3.presenters.MyAsyncTaskExecutor;
+import cl.telematica.android.certamen3.R;
+import cl.telematica.android.certamen3.models.Feed;
+import cl.telematica.android.certamen3.views.MainView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private Realm realm;
+
 
 
     @Override
@@ -98,7 +103,14 @@ public class MainActivity extends AppCompatActivity {
              * You should manage the action to show the favorite items saved by the user
              * boton para mostrar los favoritos
              */
-            savedata();
+            setContentView(R.layout.activity_main);
+
+            createMyRecyclerView();
+            MyAsyncTaskExecutor.getInstance().executeMyAsynctask(this, mRecyclerView);
+
+
+
+            imprimeBd();// imprime por consola la bd
             return true;
         }
 
@@ -106,13 +118,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void savedata() {
+    @Override
+    public void imprimeBd() {
 
         RealmResults<Feed> results = realm.where(Feed.class)
                 //.equalTo("imagen", "soccer")
                 //.or()
                 //.equalTo("imagen", "tenis")   FILTRAJE
                 .findAll();
+        for (int i = 0; i < results.size(); i++) {
+            Feed u = results.get(i);
+
+            //u.getAuthor().toString()
+        }
        System.out.println(results);
     }
 }
