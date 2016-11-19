@@ -1,5 +1,6 @@
 package cl.telematica.android.certamen3.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,9 +16,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cl.telematica.android.certamen3.presenters.MyAsyncTaskExecutor;
 import cl.telematica.android.certamen3.R;
 import cl.telematica.android.certamen3.models.Feed;
+import cl.telematica.android.certamen3.presenters.MyAsyncTaskExecutor;
 import cl.telematica.android.certamen3.views.MainView;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private Realm realm;
+
+
 
 
 
@@ -103,18 +106,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
              * You should manage the action to show the favorite items saved by the user
              * boton para mostrar los favoritos
              */
-            setContentView(R.layout.activity_main);
 
-            createMyRecyclerView();
-            MyAsyncTaskExecutor.getInstance().executeMyAsynctask(this, mRecyclerView);
+                Intent intent = new Intent(MainActivity.this,Favoritos.class);
+                startActivity(intent);
+                return true;
+            }
+
+            return super.onOptionsItemSelected(item);
 
 
+            //imprimeBd();// imprime por consola la bd
 
-            imprimeBd();// imprime por consola la bd
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -122,9 +124,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public void imprimeBd() {
 
         RealmResults<Feed> results = realm.where(Feed.class)
-                //.equalTo("imagen", "soccer")
+                //.equalTo("", "")
                 //.or()
-                //.equalTo("imagen", "tenis")   FILTRAJE
+                //.equalTo("", "")
                 .findAll();
         for (int i = 0; i < results.size(); i++) {
             Feed u = results.get(i);
@@ -132,5 +134,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
             //u.getAuthor().toString()
         }
        System.out.println(results);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }
